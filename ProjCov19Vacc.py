@@ -63,15 +63,6 @@ for feature in states["features"]:
 
 # # Model
 
-# In[36]:
-
-
-c=vacc.corr()
-top_corr_features=c.index
-plt.figure(figsize=(10,5))
-g=sns.heatmap(vacc[top_corr_features].corr(),annot=True,cmap='RdYlGn')
-
-
 # In[40]:
 
 
@@ -106,56 +97,7 @@ model = LR.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 
-
-# In[44]:
-
-
-model.score(X_train,y_train)
-
-
-# In[45]:
-
-
-model.score(X_test,y_test)
-
-
 # In[47]:
-
-
-x1 = sm.add_constant(X_train)
-model1 = sm.OLS(y_train,x1)
-results = model1.fit()
-print(results.summary())
-
-
-# In[16]:
-
-
-#Normality of Residual
-residuals = y_test - y_pred
-sns.distplot((residuals))
-
-
-# In[17]:
-
-
-plt.plot(X_test['Total Sites'],y_pred,label = 'Linear Regression', color = 'b')
-plt.scatter(X_test['Total Sites'],y_test,label = 'Actual test data',
-            color = 'g',alpha=.7)
-plt.legend()
-plt.show()
-
-
-# In[18]:
-
-
-residuals = y_test - y_pred
-fig, ax = plt.subplots(figsize=(6,5))
-_ = ax.scatter(y_pred, residuals)
-
-
-# In[19]:
-
 
 pickle.dump(model,open('vaccine.pkl','wb'))
 
