@@ -15,15 +15,8 @@ import json
 from io import StringIO
 import plotly.express as px
 import plotly.io as pio
-import scipy.stats as stats
-import statsmodels.api as sm
-import pickle
 from PIL import Image
-from sklearn import metrics
 pio.renderers.default = 'browser'
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-from df2gspread import df2gspread as d2g
 
 
 # In[3]:
@@ -43,7 +36,6 @@ vacc.replace(',','',regex=True,inplace=True)
 
 # In[4]:
 
-
 vacc["id"] = s_code["id"]
 
 
@@ -54,113 +46,7 @@ states = json.load(open("states_india.geojson", "r"))
 state_id_map = {}
 for feature in states["features"]:
     feature["id"] = feature["properties"]["state_code"]
-    state_id_map[feature["properties"]["st_nm"]] = feature["id"]
-
-
-# # Model
-
-# In[9]:
-
-
-c=vacc.corr()
-top_corr_features=c.index
-plt.figure(figsize=(10,5))
-g=sns.heatmap(vacc[top_corr_features].corr(),annot=True,cmap='RdYlGn')
-
-
-# In[10]:
-
-
-new_data= vacc.drop(['State','First Dose Administered', 'Second Dose Administered',
-       'Male(Individuals Vaccinated)', 'Female(Individuals Vaccinated)',
-       'Transgender(Individuals Vaccinated)', 'Total Covaxin Administered',
-       'Total CoviShield Administered', 'AEFI', '18-45 years (Age)', '45-60 years (Age)', '60+ years (Age)',
-       'Total Doses Administered','Total Sputnik V Administered',
-       'Total Doses Administered'],axis=1)
-
-
-# In[11]:
-
-
-X = new_data.drop(['Total Individuals Vaccinated'],axis=1)
-y = new_data['Total Individuals Vaccinated']
-
-
-# In[16]:
-
-
-from sklearn.model_selection import train_test_split
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size =0.30, random_state=0)
-
-
-# In[17]:
-
-
-from sklearn.linear_model import LinearRegression
-LR = LinearRegression()
-model = LR.fit(X_train,y_train)
-model
-
-
-# In[18]:
-
-
-from sklearn import metrics
-y_pred = LR.predict(X_test)
-
-# In[19]:
-
-
-model.score(X_train,y_train)
-
-
-# In[20]:
-
-
-model.score(X_test,y_test)
-
-
-# In[21]:
-
-
-x1 = sm.add_constant(X)
-model1 = sm.OLS(y,x1)
-results = model1.fit()
-print(results.summary())
-
-
-# In[22]:
-
-
-sns.set(style="darkgrid")
-sns.regplot(x=X_test['Total Sites'], y=y_pred)
-
-
-# In[23]:
-
-
-plt.scatter(x= y_test, y=y_pred)
-
-
-# In[24]:
-
-
-residuals = y_test - y_pred
-sns.residplot(y_pred,residuals,line_kws={'lw': 1, 'alpha': 3})
-plt.xlabel("Fitted values")
-plt.title('Residual plot')
-
-
-# In[25]:
-
-
-sns.distplot((residuals))
-
-
-# In[26]:
-
-
-pickle.dump(model,open('covid_model7_linear_model.pkl','wb'))
+    state_id_map[feature["properties"]["st_nm"]] =  feature["id"]
 
 
 # # Streamlit
@@ -209,6 +95,13 @@ if st.sidebar.checkbox('First Dose and Second Dose'):
              barmode='group', height=800, width = 800)
     st.plotly_chart(fig)
     
+if st.sidebar.checkbox('Age Group'):
+    st.subheader('Age Group vaccinations by state')
+    fig = px.bar(vacc, x="State", y=['18-45 years (Age)', '45-60 years (Age)', '60+ years (Age)'], 
+             barmode='group', height=800, width = 800)
+    fig.update_layout(xaxis={'categoryorder':'total descending'})
+    st.plotly_chart(fig)
+    
 if st.sidebar.checkbox('Map'):
     st.subheader('Covid19 Vaccine Map')
     fig = px.choropleth_mapbox(
@@ -229,8 +122,4 @@ if st.sidebar.checkbox('Map'):
     opacity=0.5,
     )
     st.plotly_chart(fig)
-
-
-# In[29]:
-
-
+    
