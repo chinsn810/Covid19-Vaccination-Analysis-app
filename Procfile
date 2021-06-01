@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run ProjCov19Vacc.py
+web: sh setup.sh && streamlit run --server.port $PORT ProjCov19Vacc.py
