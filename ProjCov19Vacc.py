@@ -25,7 +25,7 @@ pio.renderers.default = 'browser'
 # In[32]:
 
 
-s_code = pd.read_csv(r'C:/Users/CHINMAY SN/state_code.csv')
+s_code = pd.read_csv(r'C:/CHINMAY/Documents/state_code.csv')
 gsheetid_1 = "1noqoXm0pnb61miW0HnaCCNsKPm_4lwhbzmHkREuF0ZY"
 sheet_name_1 = "Vaccine"
 gsheet_url_1 = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(gsheetid_1,sheet_name_1)
