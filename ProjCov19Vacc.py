@@ -15,11 +15,8 @@ import json
 from io import StringIO
 import plotly.express as px
 import plotly.io as pio
-import scipy.stats as stats
-import statsmodels.api as sm
 import pickle
 from PIL import Image
-from sklearn import metrics
 pio.renderers.default = 'browser'
 
 
