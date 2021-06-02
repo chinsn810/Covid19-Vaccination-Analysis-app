@@ -98,9 +98,7 @@ pickle.dump(model,open('vaccine.pkl','wb'))
 
 
 st.markdown("# COVID-19 Vaccination Detailed Analysis (India)") 
-img = Image.open('C:/CHINMAY/Documents/COVID-19-vaccine.png')
-if img.mode != 'RGB':
-    img = img.convert('RGB')
+img = "https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/05/covidvaccinetechnology-1620269459.jpg"
 st.image(img, caption = "Source: bioworld.com", width=500)
 if st.checkbox('view_data'):
     st.subheader('Vaccination Data')
