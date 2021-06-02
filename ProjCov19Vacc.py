@@ -115,7 +115,6 @@ st.sidebar.subheader('Visualizations')
 if st.sidebar.checkbox('Individuals Vaccinated'):
     st.subheader('Number of Individuals Vaccinated by State')
     fig = px.bar(vacc, x="State", y="Total Individuals Vaccinated", height=800, width = 800)
-    fig.update_layout(xaxis={'categoryorder':'total descending'})
     st.plotly_chart(fig)
 
 if st.sidebar.checkbox('Covid-19 Vaccines in India'):
@@ -135,7 +134,6 @@ if st.sidebar.checkbox('First Dose and Second Dose'):
     st.subheader('First and Second Doses Administered by State')
     fig = px.bar(vacc, x="State", y=['First Dose Administered','Second Dose Administered'], 
              barmode='group', height=800, width = 800)
-    fig.update_layout(xaxis={'categoryorder':'total descending'})
     st.plotly_chart(fig)
     
 if st.sidebar.checkbox('Map'):
