@@ -24,8 +24,7 @@ pio.renderers.default = 'browser'
 
 # In[32]:
 
-
-s_code = pd.read_csv(r'C:/CHINMAY/Documents/state_code.csv')
+s_code = [35,28,12,18,10,4,22,26,7,30,24,6,2,1,20,29,32,37,31,23,27,14,17,15,13,21,34,3,8,11,33,0,16,5,9,19]
 gsheetid_1 = "1noqoXm0pnb61miW0HnaCCNsKPm_4lwhbzmHkREuF0ZY"
 sheet_name_1 = "Vaccine"
 gsheet_url_1 = "https://docs.google.com/spreadsheets/d/{}/gviz/tq?tqx=out:csv&sheet={}".format(gsheetid_1,sheet_name_1)
@@ -38,14 +37,8 @@ vacc = vacc[vacc["State"]!="India"]
 
 vacc = vacc.groupby('State').last().reset_index()
 vacc = vacc.drop(columns=['Updated On'])
-vacc = vacc.drop(index=[33],axis=0)
 vacc.replace(',','',regex=True,inplace=True)
-
-
-# In[34]:
-
-
-vacc["id"] = s_code["id"]
+vacc["id"] = s_code
 
 
 # In[35]:
