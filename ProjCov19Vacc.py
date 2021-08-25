@@ -196,8 +196,8 @@ if st.sidebar.checkbox("Predict"):
 
         fig = px.choropleth_mapbox(vacc,locations="id",geojson = states,
                                    color="Total Individuals Vaccinated",hover_name="State",
-                                   hover_data = ['Total Individuals Vaccinated', 'Total Sessions Conducted',
-                                                   'Total Sites'],
+                                   hover_data = ['Total Individuals Vaccinated', 'Sessions',
+                                                   'Sites'],
                                    mapbox_style="carto-positron",center={"lat": 24, "lon": 78},
                                    zoom=3,opacity=0.5,
                                    )
