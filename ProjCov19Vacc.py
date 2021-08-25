@@ -39,6 +39,7 @@ vacc = vacc.groupby('State').last().reset_index()
 vacc = vacc.drop(columns=['Updated On'])
 vacc.replace(',','',regex=True,inplace=True)
 vacc["id"] = s_code
+vacc = vacc.rename({'Total Doses Administered':'Total Individuals Vaccinated'},axis=1)
 
 
 # In[35]:
@@ -108,32 +109,39 @@ if st.checkbox('view_data'):
 # In[21]:
 
 
-st.sidebar.markdown("## Side Panel")
-st.sidebar.markdown("Use this panel to explore our app")
-
 st.sidebar.subheader('Visualizations')
 if st.sidebar.checkbox('Individuals Vaccinated'):
     st.subheader('Number of Individuals Vaccinated by State')
     fig = px.bar(vacc, x="State", y="Total Individuals Vaccinated", height=800, width = 800)
+    fig.update_layout(xaxis={'categoryorder':'total descending'})
     st.plotly_chart(fig)
 
 if st.sidebar.checkbox('Covid-19 Vaccines in India'):
     st.subheader('Vaccines Administered by State')
-    fig = px.bar(vacc, x="State", y=["Total Covaxin Administered","Total CoviShield Administered"], 
+    fig = px.bar(vacc, x="State", y=['Covaxin (Doses Administered)',
+       'CoviShield (Doses Administered)', 'Sputnik V (Doses Administered)'], 
              barmode='group', height=800, width = 800)
     st.plotly_chart(fig)
     
 if st.sidebar.checkbox('Gender'):
     st.subheader('Vaccines Administered by State and Gender')
-    fig = px.bar(vacc, x="State", y=["Male(Individuals Vaccinated)","Female(Individuals Vaccinated)",
-                                     "Transgender(Individuals Vaccinated)"], 
+    fig = px.bar(vacc, x="State", y=['Male (Doses Administered)', 'Female (Doses Administered)',
+       'Transgender (Doses Administered)'], 
              barmode='group', height=800, width = 800)
     st.plotly_chart(fig)
-    
+
+if st.sidebar.checkbox('Age-wise'):
+    st.subheader('Vaccines Administered by State and Gender')
+    fig = px.bar(vacc, x="State", y=['18-44 Years (Doses Administered)',
+       '45-60 Years (Doses Administered)', '60+ Years (Doses Administered)'], 
+             barmode='group', height=800, width = 800)
+    st.plotly_chart(fig)
+
 if st.sidebar.checkbox('First Dose and Second Dose'):
     st.subheader('First and Second Doses Administered by State')
     fig = px.bar(vacc, x="State", y=['First Dose Administered','Second Dose Administered'], 
              barmode='group', height=800, width = 800)
+    fig.update_layout(xaxis={'categoryorder':'total descending'})
     st.plotly_chart(fig)
     
 if st.sidebar.checkbox('Map'):
@@ -144,11 +152,10 @@ if st.sidebar.checkbox('Map'):
     geojson = states,
     color="Total Individuals Vaccinated",
     hover_name="State",
-    hover_data=['Total Individuals Vaccinated', 'Total Sessions Conducted',
-       'Total Sites', 'First Dose Administered', 'Second Dose Administered',
-       'Male(Individuals Vaccinated)', 'Female(Individuals Vaccinated)',
-       'Transgender(Individuals Vaccinated)', 'Total Covaxin Administered',
-       'Total CoviShield Administered'],
+    hover_data=['Total Individuals Vaccinated', 'Sessions', 'Sites', 'First Dose Administered', 'Second Dose Administered',
+       'Male (Doses Administered)', 'Female (Doses Administered)',
+       'Transgender (Doses Administered)', 'Covaxin (Doses Administered)',
+       'CoviShield (Doses Administered)', 'Sputnik V (Doses Administered)'],
     title="India Covid-19 Vaccine Map",
     mapbox_style="carto-positron",
     center={"lat": 24, "lon": 78},
@@ -156,7 +163,6 @@ if st.sidebar.checkbox('Map'):
     opacity=0.5,
     )
     st.plotly_chart(fig)
-
 
 # In[22]:
 
