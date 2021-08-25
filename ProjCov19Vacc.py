@@ -56,13 +56,16 @@ for feature in states["features"]:
 
 # In[40]:
 
-
-new_data= vacc.drop(['State','First Dose Administered', 'Second Dose Administered',
-       'Male(Individuals Vaccinated)', 'Female(Individuals Vaccinated)',
-       'Transgender(Individuals Vaccinated)', 'Total Covaxin Administered',
-       'Total CoviShield Administered', 'AEFI', '18-45 years (Age)', '45-60 years (Age)', '60+ years (Age)',
-       'Total Doses Administered','Total Sputnik V Administered',
-       'Total Doses Administered','id'],axis=1)
+new_data = vacc.drop(['State','First Dose Administered', 'Second Dose Administered',
+       'Male (Doses Administered)', 'Female (Doses Administered)','Transgender (Doses Administered)',
+                      'Male (Individuals Vaccinated)','Female (Individuals Vaccinated)',
+                      'Transgender (Individuals Vaccinated)','Covaxin (Doses Administered)',
+       'CoviShield (Doses Administered)', 'Sputnik V (Doses Administered)',
+       'AEFI', '18-44 Years (Doses Administered)',
+       '45-60 Years (Doses Administered)', '60+ Years (Doses Administered)',
+       '18-44 Years (Individuals Vaccinated)',
+       '45-60 Years (Individuals Vaccinated)',
+       '60+ Years (Individuals Vaccinated)','id'],axis=1)
 
 
 # In[41]:
